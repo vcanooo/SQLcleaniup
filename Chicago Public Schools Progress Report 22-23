@@ -1,0 +1,83 @@
+CREATE FUNCTION getAverageSATScore()
+RETURNS INT
+BEGIN
+    DECLARE avg_score INT;
+    SELECT AVG(SAT_school_AVG) INTO avg_score FROM schools;
+    RETURN IFNULL(avg_score, 0);
+END;
+
+
+CREATE TABLE schools (
+    School_ID INT PRIMARY KEY,
+    District VARCHAR(50),
+    School_Name VARCHAR(100),
+    Free_lunch_dollars INT,
+    Free_lunch_pct DECIMAL(5, 2),
+    White_No INT,
+    White_Pct DECIMAL(5, 2),
+    African_Am_No INT,
+    African_Am_Pct DECIMAL(5, 2),
+    Hispanic_No INT,
+    Hispanic_Pct DECIMAL(5, 2),
+    Asian_Islander_No INT,
+    Asian_Islander_Pct DECIMAL(5, 4),
+    Other_Race_No INT,
+    Other_Race_Pct DECIMAL(5, 4),
+    School_Type VARCHAR(50),
+    Primary_Category VARCHAR(50),
+    Zip INT,
+    SAT_school_AVG INT,
+    SAT_CPS_AVG INT,
+    College_Enrollment_CPS DECIMAL(5, 1),
+    College_Enrollment_HS DECIMAL(5, 1),
+    School_Latitude DECIMAL(9, 6),
+    School_Longitude DECIMAL(9, 6)
+);
+
+
+CREATE FUNCTION getTotalSchools()
+RETURNS INT
+BEGIN
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM schools;
+    RETURN total;
+END;
+
+
+CREATE FUNCTION getAverageSATScore()
+RETURNS INT
+BEGIN
+    DECLARE avg_score INT;
+    SELECT AVG(SAT_school_AVG) INTO avg_score FROM schools;
+    RETURN avg_score;
+END;
+
+
+CREATE FUNCTION getSchoolWithHighestFreeLunch()
+RETURNS VARCHAR(100)
+BEGIN
+    DECLARE school_name VARCHAR(100);
+    SELECT School_Name INTO school_name
+    FROM schools
+    ORDER BY Free_lunch_pct DESC
+    LIMIT 1;
+    RETURN school_name;
+END;
+
+CREATE FUNCTION getAverageCollegeEnrollment()
+RETURNS DECIMAL(5, 1)
+BEGIN
+    DECLARE avg_enrollment DECIMAL(5, 1);
+    SELECT AVG(College_Enrollment_CPS) INTO avg_enrollment FROM schools;
+    RETURN avg_enrollment;
+END;
+
+ELIMITER //
+CREATE FUNCTION getAverageSATScore()
+RETURNS INT
+BEGIN
+    DECLARE avg_score INT;
+    SELECT AVG(SAT_school_AVG) INTO avg_score FROM schools;
+    RETURN avg_score;
+END//
+DELIMITER ;
